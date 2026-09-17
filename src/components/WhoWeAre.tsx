@@ -315,12 +315,21 @@ export default function WhoWeAre() {
 
       <style>{`
         @media (max-width: 860px) {
+          #server-parts {
+            padding: 60px 0 !important;
+          }
           .who-we-are-grid {
             grid-template-columns: 1fr !important;
-            gap: 48px !important;
+            gap: 40px !important;
           }
         }
-        @media (max-width: 480px) {
+        @media (max-width: 540px) {
+          .info-cards-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 10px !important;
+          }
+        }
+        @media (max-width: 360px) {
           .info-cards-grid {
             grid-template-columns: 1fr !important;
           }

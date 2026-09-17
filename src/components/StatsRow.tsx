@@ -133,15 +133,12 @@ export default function StatsRow() {
       borderBottom: '1px solid var(--border)',
     }}>
       <div className="container">
-        <div style={{ display: 'flex', alignItems: 'stretch' }} className="stats-row">
+        <div className="stats-row">
           {STATS.map((s, i) => (
-            <div key={i} style={{ display: 'flex', alignItems: 'stretch', flex: 1 }}>
+            <div key={i} className="stat-col">
               <StatItem {...s} go={go} idx={i} />
               {i < STATS.length - 1 && (
-                <div className="stat-divider" style={{
-                  width: '1px', background: 'var(--border)',
-                  alignSelf: 'stretch', margin: '24px 0',
-                }} />
+                <div className="stat-divider" />
               )}
             </div>
           ))}
@@ -149,13 +146,53 @@ export default function StatsRow() {
       </div>
 
       <style>{`
-        @media (max-width: 680px) {
-          .stats-row { flex-wrap: wrap; }
-          .stats-row > div { flex-basis: 50%; }
-          .stat-divider { display: none !important; }
+        .stats-row {
+          display: flex;
+          align-items: stretch;
         }
-        @media (max-width: 440px) {
-          .stats-row > div { flex-basis: 100%; }
+        .stat-col {
+          display: flex;
+          align-items: stretch;
+          flex: 1;
+        }
+        .stat-divider {
+          width: 1px;
+          background: var(--border);
+          align-self: stretch;
+          margin: 24px 0;
+        }
+
+        /* ── 2x2 Bento Grid for Mobile ── */
+        @media (max-width: 768px) {
+          .stats-row {
+            display: grid !important;
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 12px !important;
+            padding: 24px 0 !important;
+          }
+          .stat-col {
+            background: var(--surface-low);
+            border: 1px solid var(--border);
+            border-radius: var(--r, 16px);
+            box-shadow: var(--shadow-xs);
+            transition: all 0.2s ease;
+          }
+          .stat-col:active {
+            transform: scale(0.98);
+            border-color: var(--blue-border);
+            background: var(--blue-tint);
+          }
+          .stat-divider {
+            display: none !important;
+          }
+          .stats-row .stat-col > div {
+            padding: 20px 14px !important;
+            width: 100%;
+          }
+          .stats-row .stat-col .label-mono,
+          .stats-row .stat-col div[style*="font-family: var(--mono)"] {
+            font-size: 11px !important;
+          }
         }
       `}</style>
     </section>

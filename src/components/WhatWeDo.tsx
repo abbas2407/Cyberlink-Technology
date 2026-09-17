@@ -257,7 +257,20 @@ export default function WhatWeDo() {
       </div>
 
       <style>{`
-        @media (max-width: 700px) { .what-grid { grid-template-columns: 1fr !important; } }
+        @media (max-width: 768px) {
+          #what-we-do {
+            padding: 60px 0 !important;
+          }
+        }
+        @media (max-width: 700px) {
+          .what-grid {
+            grid-template-columns: 1fr !important;
+            gap: 14px !important;
+          }
+          .what-card {
+            padding: 24px 20px !important;
+          }
+        }
       `}</style>
     </section>
   );

@@ -589,10 +589,29 @@ export default function ContactForm() {
 
       <style>{`
         @media (max-width: 900px) {
-          .contact-layout { grid-template-columns: 1fr !important; }
+          #contact {
+            padding: 60px 0 !important;
+          }
+          .contact-layout {
+            grid-template-columns: 1fr !important;
+          }
+          .contact-card > div:first-child {
+            padding: 32px 24px !important;
+            gap: 24px !important;
+          }
+          .contact-card > div:last-child {
+            padding: 32px 24px !important;
+          }
         }
         @media (max-width: 520px) {
-          .form-row { grid-template-columns: 1fr !important; }
+          .contact-card > div:first-child,
+          .contact-card > div:last-child {
+            padding: 24px 16px !important;
+          }
+          .form-row {
+            grid-template-columns: 1fr !important;
+            gap: 14px !important;
+          }
         }
       `}</style>
     </section>

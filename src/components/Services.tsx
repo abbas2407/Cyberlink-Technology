@@ -237,7 +237,15 @@ export default function Services() {
       </div>
 
       <style>{`
-        @media (max-width: 768px) { .svc-grid { grid-template-columns: 1fr !important; } }
+        @media (max-width: 768px) {
+          #services {
+            padding: 60px 0 !important;
+          }
+          .svc-grid {
+            grid-template-columns: 1fr !important;
+            gap: 14px !important;
+          }
+        }
       `}</style>
     </section>
   );

@@ -11,6 +11,7 @@ import Softwares from './components/Softwares';
 import Testimonial from './components/Testimonial';
 import ContactForm from './components/ContactForm';
 import Footer from './components/Footer';
+import WhatsAppButton from './components/WhatsAppButton';
 import FieldPulsePage from './app/products/fieldpulse/page';
 import CyberlinkHRPage from './app/products/cyberlinkhr/page';
 import HotelWifiPage from './app/products/hotelwifi/page';
@@ -154,11 +155,11 @@ export default function App() {
             <StatsRow />
           </InView>
 
-          {/* Featured Laptops — slide from right */}
+          {/* Featured Laptops — slide from bottom */}
           <InView
             variants={{
-              hidden: { opacity: 0, x: 40, filter: 'blur(4px)' },
-              visible: { opacity: 1, x: 0, filter: 'blur(0px)' },
+              hidden: { opacity: 0, y: 32, filter: 'blur(4px)' },
+              visible: { opacity: 1, y: 0, filter: 'blur(0px)' },
             }}
             transition={{ duration: 0.5, ease: 'easeOut' }}
           >
@@ -202,6 +203,7 @@ export default function App() {
           <ContactForm />
         </main>
       )}
+      <WhatsAppButton />
       <Footer />
     </>
   );

@@ -297,10 +297,18 @@ export default function FeaturedLaptops() {
         }
 
         @media (max-width: 900px) {
-          .product-grid { grid-template-columns: repeat(2, 1fr) !important; }
+          .product-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 16px !important; }
+        }
+        @media (max-width: 768px) {
+          #networking {
+            padding: 60px 0 50px !important;
+          }
         }
         @media (max-width: 520px) {
-          .product-grid { grid-template-columns: 1fr !important; }
+          .product-grid { grid-template-columns: 1fr !important; gap: 14px !important; }
+          .infra-card-image { height: 160px !important; }
+          .infra-card-content { padding: 16px 16px 18px !important; }
+          .infra-card-btn { height: 42px !important; }
         }
       `}</style>
     </section>

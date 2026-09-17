@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 import cyberlinkLogo from '../images/cyberlink-logo.png';
 
@@ -204,99 +204,231 @@ export default function Nav() {
           </div>
 
           {/* ── Hamburger (mobile) ── */}
-          <button
-            onClick={() => setMobileOpen(true)}
+          <motion.button
+            onClick={() => setMobileOpen(prev => !prev)}
             className="nav-hamburger"
-            aria-label="Open menu"
+            aria-label="Toggle menu"
+            whileTap={{ scale: 0.92 }}
             style={{
-              background: 'none',
+              background: mobileOpen ? 'var(--surface-high)' : 'var(--surface-low)',
               border: '1px solid var(--border)',
-              borderRadius: 'var(--r)',
+              borderRadius: '12px',
               cursor: 'pointer',
-              padding: '8px 10px',
+              padding: '10px 12px',
               display: 'none',
-              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
               gap: '4px',
+              width: '42px',
+              height: '42px',
+              transition: 'background-color 0.2s',
             }}
           >
-            {[0,1,2].map(i => (
-              <span key={i} style={{ display: 'block', width: '18px', height: '1.5px', background: 'var(--text-primary)', borderRadius: '1px' }} />
-            ))}
-          </button>
+            <div style={{ width: '18px', height: '14px', position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+              <motion.span
+                animate={mobileOpen ? { rotate: 45, y: 6 } : { rotate: 0, y: 0 }}
+                style={{ width: '18px', height: '2px', background: 'var(--text-primary)', borderRadius: '2px', transformOrigin: 'center' }}
+              />
+              <motion.span
+                animate={mobileOpen ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }}
+                style={{ width: '18px', height: '2px', background: 'var(--text-primary)', borderRadius: '2px' }}
+              />
+              <motion.span
+                animate={mobileOpen ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }}
+                style={{ width: '18px', height: '2px', background: 'var(--text-primary)', borderRadius: '2px', transformOrigin: 'center' }}
+              />
+            </div>
+          </motion.button>
         </div>
       </motion.nav>
 
-      {/* ── Mobile overlay ── */}
-      <div style={{
-        position: 'fixed', inset: 0, zIndex: 200,
-        background: 'rgba(248,249,252,0.98)',
-        backdropFilter: 'blur(20px)',
-        WebkitBackdropFilter: 'blur(20px)',
-        display: 'flex', flexDirection: 'column',
-        alignItems: 'center', justifyContent: 'center', gap: '16px',
-        opacity: mobileOpen ? 1 : 0,
-        pointerEvents: mobileOpen ? 'all' : 'none',
-        transition: 'opacity 0.22s ease',
-        overflowY: 'auto',
-        padding: '60px 20px',
-      }}>
-        <button
-          onClick={() => setMobileOpen(false)}
-          aria-label="Close menu"
-          style={{
-            position: 'absolute', top: '16px', right: '16px',
-            background: 'var(--surface-mid)', border: '1px solid var(--border)',
-            borderRadius: 'var(--r)', cursor: 'pointer',
-            width: '42px', height: '42px',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: '18px', color: 'var(--text-primary)',
-          }}
-        >✕</button>
-        
-        {NAV_LINKS.map((link, i) => (
-          <a
-            key={i}
-            href={link.href}
-            onClick={() => {
-              setActive(link.label);
-              setMobileOpen(false);
-            }}
-            style={{
-              fontFamily: 'var(--font)', fontWeight: 700, fontSize: '24px',
-              color: 'var(--text-primary)', textDecoration: 'none',
-              padding: '6px 20px', letterSpacing: '-0.02em',
-              opacity: mobileOpen ? 1 : 0,
-              transform: mobileOpen ? 'translateY(0)' : 'translateY(10px)',
-              transition: `opacity 0.2s ease ${i*50}ms, transform 0.2s ease ${i*50}ms`,
-            }}
-            onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = 'var(--blue)'}
-            onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = 'var(--text-primary)'}
-          >
-            {link.label}
-          </a>
-        ))}
-        
-        <div style={{ marginTop: '16px', display: 'flex', flexDirection: 'column', gap: '12px', alignItems: 'center' }}>
-          <span style={{
-            fontFamily: 'var(--font)',
-            fontSize: '15px',
-            fontWeight: 500,
-            color: 'var(--text-secondary)',
-          }}>
-            +91 93914 40440
-          </span>
-          <a
-            href="https://wa.me/919391440440?text=Hello!%20I%20visited%20your%20Cyberlink%20website%20and%20want%20to%20inquire%20about%20IT%20hardware%20supply%2C%20server%20parts%2C%20or%20booking%20a%20consultation."
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => setMobileOpen(false)}
-            className="btn btn-primary"
-            style={{ minWidth: '160px' }}
-          >
-            Connect →
-          </a>
-        </div>
-      </div>
+      {/* ── High-Tech Glassmorphic Mobile Drawer ── */}
+      <AnimatePresence>
+        {mobileOpen && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.25 }}
+              onClick={() => setMobileOpen(false)}
+              style={{
+                position: 'fixed', inset: 0, zIndex: 190,
+                background: 'rgba(15, 23, 42, 0.45)',
+                backdropFilter: 'blur(8px)',
+                WebkitBackdropFilter: 'blur(8px)',
+              }}
+            />
+
+            {/* Slide-over Drawer */}
+            <motion.aside
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'spring', damping: 28, stiffness: 280 }}
+              style={{
+                position: 'fixed', top: 0, right: 0, bottom: 0,
+                width: 'min(360px, 86vw)',
+                zIndex: 200,
+                background: 'rgba(255, 255, 255, 0.96)',
+                backdropFilter: 'blur(24px)',
+                WebkitBackdropFilter: 'blur(24px)',
+                borderLeft: '1px solid var(--border)',
+                boxShadow: '-8px 0 32px rgba(0,0,0,0.12)',
+                display: 'flex', flexDirection: 'column',
+                overflowY: 'auto',
+                padding: 'calc(var(--safe-top) + 20px) 20px calc(var(--safe-bottom) + 24px)',
+              }}
+            >
+              {/* Drawer Header */}
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <img src={cyberlinkLogo} alt="Cyberlink" style={{ height: '32px', width: 'auto', mixBlendMode: 'multiply' }} />
+                  <span style={{
+                    display: 'inline-flex', alignItems: 'center', gap: '5px',
+                    padding: '3px 8px', borderRadius: 'var(--r-full)',
+                    background: 'var(--green-bg)', border: '1px solid var(--green-border)',
+                    fontFamily: 'var(--mono)', fontSize: '10px', fontWeight: 600, color: 'var(--green-text)',
+                  }}>
+                    <span className="dot-live" style={{ width: '5px', height: '5px' }} />
+                    ONLINE
+                  </span>
+                </div>
+
+                <motion.button
+                  whileTap={{ scale: 0.9 }}
+                  onClick={() => setMobileOpen(false)}
+                  aria-label="Close menu"
+                  style={{
+                    width: '36px', height: '36px', borderRadius: '10px',
+                    background: 'var(--surface-low)', border: '1px solid var(--border)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    cursor: 'pointer', color: 'var(--text-secondary)', fontSize: '16px',
+                  }}
+                >
+                  ✕
+                </motion.button>
+              </div>
+
+              {/* Navigation Links */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginBottom: '24px' }}>
+                <span style={{
+                  fontFamily: 'var(--mono)', fontSize: '11px', fontWeight: 600,
+                  color: 'var(--text-dim)', letterSpacing: '0.08em', textTransform: 'uppercase',
+                  marginBottom: '6px', paddingLeft: '6px',
+                }}>
+                  Navigation
+                </span>
+                {NAV_LINKS.map((link, i) => {
+                  const isActive = active === link.label;
+                  return (
+                    <motion.a
+                      key={link.label}
+                      href={link.href}
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.05 * i, duration: 0.25 }}
+                      onClick={() => {
+                        setActive(link.label);
+                        setMobileOpen(false);
+                      }}
+                      whileTap={{ scale: 0.98 }}
+                      style={{
+                        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                        padding: '12px 14px', borderRadius: '12px',
+                        background: isActive ? 'var(--blue-tint)' : 'var(--surface-white)',
+                        border: `1px solid ${isActive ? 'var(--blue-border)' : 'var(--border)'}`,
+                        textDecoration: 'none',
+                        color: isActive ? 'var(--blue)' : 'var(--text-primary)',
+                        fontFamily: 'var(--font)', fontWeight: isActive ? 600 : 500, fontSize: '15px',
+                        transition: 'all 0.15s ease',
+                      }}
+                    >
+                      <span>{link.label}</span>
+                      <span style={{ color: isActive ? 'var(--blue)' : 'var(--text-muted)', fontSize: '14px' }}>
+                        {isActive ? '●' : '→'}
+                      </span>
+                    </motion.a>
+                  );
+                })}
+              </div>
+
+              {/* Quick Products Shortcuts */}
+              <div style={{ marginBottom: '24px' }}>
+                <span style={{
+                  fontFamily: 'var(--mono)', fontSize: '11px', fontWeight: 600,
+                  color: 'var(--text-dim)', letterSpacing: '0.08em', textTransform: 'uppercase',
+                  marginBottom: '8px', display: 'block', paddingLeft: '6px',
+                }}>
+                  Software Platforms
+                </span>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+                  {[
+                    { name: 'FieldPulse', path: '/products/fieldpulse', cat: 'Fleet GPS' },
+                    { name: 'CyberlinkHR', path: '/products/cyberlinkhr', cat: 'Payroll' },
+                    { name: 'HotelWifi', path: '/products/hotelwifi', cat: 'Hotspot' },
+                    { name: 'AgentPro', path: '/products/agentpro', cat: 'CRM Desk' },
+                  ].map(p => (
+                    <a
+                      key={p.name}
+                      href={p.path}
+                      onClick={() => setMobileOpen(false)}
+                      style={{
+                        padding: '10px 12px', borderRadius: '10px',
+                        background: 'var(--surface-low)', border: '1px solid var(--border)',
+                        textDecoration: 'none', display: 'flex', flexDirection: 'column', gap: '2px',
+                      }}
+                    >
+                      <span style={{ fontFamily: 'var(--font)', fontWeight: 600, fontSize: '13px', color: 'var(--text-primary)' }}>
+                        {p.name}
+                      </span>
+                      <span style={{ fontFamily: 'var(--mono)', fontSize: '10px', color: 'var(--text-muted)' }}>
+                        {p.cat}
+                      </span>
+                    </a>
+                  ))}
+                </div>
+              </div>
+
+              {/* Bottom Quick-Action CTAs */}
+              <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                <motion.a
+                  href="https://wa.me/919391440440?text=Hello!%20I%20visited%20your%20Cyberlink%20website%20and%20want%20to%20inquire%20about%20IT%20hardware%20supply%2C%20server%20parts%2C%20or%20booking%20a%20consultation."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileTap={{ scale: 0.97 }}
+                  onClick={() => setMobileOpen(false)}
+                  style={{
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+                    height: '46px', borderRadius: '12px',
+                    background: '#22c55e', color: '#ffffff',
+                    fontFamily: 'var(--font)', fontWeight: 600, fontSize: '14px',
+                    textDecoration: 'none', boxShadow: '0 4px 14px rgba(34,197,94,0.3)',
+                  }}
+                >
+                  <span>Chat on WhatsApp</span>
+                  <span>↗</span>
+                </motion.a>
+
+                <a
+                  href="tel:+919391440440"
+                  style={{
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+                    height: '42px', borderRadius: '12px',
+                    background: 'var(--surface-low)', border: '1px solid var(--border)',
+                    color: 'var(--text-primary)',
+                    fontFamily: 'var(--font)', fontWeight: 500, fontSize: '13.5px',
+                    textDecoration: 'none',
+                  }}
+                >
+                  <span>📞 Call: +91 93914 40440</span>
+                </a>
+              </div>
+            </motion.aside>
+          </>
+        )}
+      </AnimatePresence>
 
       <style>{`
         @media (max-width: 960px) {
@@ -308,3 +440,4 @@ export default function Nav() {
     </>
   );
 }
+

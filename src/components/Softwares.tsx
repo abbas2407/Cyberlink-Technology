@@ -1044,29 +1044,49 @@ export default function Softwares() {
           color: var(--blue);
         }
 
-        /* Mobile: stack buttons, full-width card */
-        @media (max-width: 640px) {
+        /* Mobile: swipeable pill tabs, full-width card, vertical CTA stack */
+        @media (max-width: 768px) {
+          #softwares {
+            padding: 60px 0 !important;
+          }
           .sw-tabs-row {
-            gap: 8px !important;
+            display: flex !important;
+            flex-wrap: nowrap !important;
+            overflow-x: auto !important;
+            -webkit-overflow-scrolling: touch !important;
+            scrollbar-width: none !important;
+            justify-content: flex-start !important;
+            gap: 10px !important;
             margin-bottom: 24px !important;
+            padding-bottom: 8px !important;
+            margin-left: -16px !important;
+            margin-right: -16px !important;
+            padding-left: 16px !important;
+            padding-right: 16px !important;
+          }
+          .sw-tabs-row::-webkit-scrollbar {
+            display: none !important;
           }
           .sw-tabs-row .tab-btn {
-            padding: 8px 12px !important;
-            font-size: 12px !important;
+            flex-shrink: 0 !important;
+            white-space: nowrap !important;
+            padding: 9px 16px !important;
+            font-size: 13px !important;
+            border-radius: var(--r-full) !important;
           }
-        }
-        @media (max-width: 560px) {
           .detail-card {
-            padding: 24px 16px;
-            max-width: 100%;
+            padding: 24px 18px !important;
+            max-width: 100% !important;
+            border-radius: var(--r-lg, 18px) !important;
           }
           .sw-cta-row {
-            flex-direction: column;
+            flex-direction: column !important;
+            gap: 10px !important;
           }
           .sw-btn-demo,
           .sw-btn-checkout {
-            width: 100%;
-            flex: unset;
+            width: 100% !important;
+            flex: unset !important;
           }
         }
       `}</style>

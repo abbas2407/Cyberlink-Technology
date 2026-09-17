@@ -152,21 +152,37 @@ const AUTO_DELAY = 4000;
 function CarouselNavigator({
   total,
   active,
+  isDark = true,
   onPrev,
   onNext,
   onDot,
 }: {
   total: number;
   active: number;
+  isDark?: boolean;
   onPrev: () => void;
   onNext: () => void;
   onDot: (i: number) => void;
 }) {
+  const btnBg = isDark ? 'rgba(255,255,255,0.14)' : 'rgba(15,23,42,0.08)';
+  const btnBorder = isDark ? 'rgba(255,255,255,0.28)' : 'rgba(15,23,42,0.2)';
+  const btnColor = isDark ? '#ffffff' : '#0f172a';
+  const dotBg = isDark ? 'rgba(255,255,255,0.25)' : 'rgba(15,23,42,0.2)';
+  const barBg = isDark ? '#ffffff' : 'var(--blue)';
+  const counterColor = isDark ? 'rgba(255,255,255,0.75)' : 'rgba(15,23,42,0.7)';
+
   return (
     <div style={{
       display: 'flex',
       alignItems: 'center',
-      gap: '14px',
+      gap: '12px',
+      background: isDark ? 'rgba(0,0,0,0.25)' : 'rgba(255,255,255,0.6)',
+      backdropFilter: 'blur(12px)',
+      WebkitBackdropFilter: 'blur(12px)',
+      padding: '6px 12px',
+      borderRadius: 'var(--r-full)',
+      border: `1px solid ${btnBorder}`,
+      boxShadow: '0 4px 16px rgba(0,0,0,0.12)',
     }}>
       {/* Prev button */}
       <motion.button
@@ -174,26 +190,25 @@ function CarouselNavigator({
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.92 }}
         style={{
-          width: '38px', height: '38px',
+          width: '32px', height: '32px',
           borderRadius: '50%',
-          background: 'rgba(255,255,255,0.12)',
-          border: '1px solid rgba(255,255,255,0.25)',
-          backdropFilter: 'blur(8px)',
-          color: '#fff',
+          background: btnBg,
+          border: `1px solid ${btnBorder}`,
+          color: btnColor,
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           cursor: 'pointer',
           flexShrink: 0,
-          transition: 'background 0.2s',
+          transition: 'all 0.2s',
         }}
         aria-label="Previous slide"
       >
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
           <polyline points="15 18 9 12 15 6"/>
         </svg>
       </motion.button>
 
       {/* Dots + progress bars */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
         {Array.from({ length: total }).map((_, i) => {
           const isActive = active === i;
           return (
@@ -203,10 +218,10 @@ function CarouselNavigator({
               aria-label={`Go to slide ${i + 1}`}
               style={{
                 position: 'relative',
-                width: isActive ? '40px' : '8px',
-                height: '8px',
+                width: isActive ? '32px' : '7px',
+                height: '7px',
                 borderRadius: '4px',
-                background: isActive ? 'rgba(255,255,255,0.2)' : 'rgba(255,255,255,0.35)',
+                background: dotBg,
                 border: 'none',
                 padding: 0,
                 cursor: 'pointer',
@@ -225,7 +240,7 @@ function CarouselNavigator({
                     position: 'absolute',
                     left: 0, top: 0,
                     height: '100%',
-                    background: '#ffffff',
+                    background: barBg,
                     borderRadius: '4px',
                   }}
                 />
@@ -241,20 +256,19 @@ function CarouselNavigator({
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.92 }}
         style={{
-          width: '38px', height: '38px',
+          width: '32px', height: '32px',
           borderRadius: '50%',
-          background: 'rgba(255,255,255,0.12)',
-          border: '1px solid rgba(255,255,255,0.25)',
-          backdropFilter: 'blur(8px)',
-          color: '#fff',
+          background: btnBg,
+          border: `1px solid ${btnBorder}`,
+          color: btnColor,
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           cursor: 'pointer',
           flexShrink: 0,
-          transition: 'background 0.2s',
+          transition: 'all 0.2s',
         }}
         aria-label="Next slide"
       >
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
           <polyline points="9 18 15 12 9 6"/>
         </svg>
       </motion.button>
@@ -262,20 +276,21 @@ function CarouselNavigator({
       {/* Slide counter */}
       <motion.span
         key={active}
-        initial={{ opacity: 0, y: 6 }}
+        initial={{ opacity: 0, y: 4 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3 }}
+        transition={{ duration: 0.2 }}
         style={{
           fontFamily: 'var(--mono)',
           fontSize: '11px',
           fontWeight: 600,
-          color: 'rgba(255,255,255,0.5)',
-          letterSpacing: '0.06em',
+          color: counterColor,
+          letterSpacing: '0.04em',
           userSelect: 'none',
-          minWidth: '28px',
+          minWidth: '24px',
+          textAlign: 'center',
         }}
       >
-        {String(active + 1).padStart(2, '0')}/{String(total).padStart(2, '0')}
+        {active + 1}/{total}
       </motion.span>
     </div>
   );
@@ -340,6 +355,35 @@ export default function Hero() {
     startInterval();
   };
 
+  /* ── Mobile Touch Swipe Handlers ── */
+  const touchStartX = useRef<number | null>(null);
+  const touchEndX = useRef<number | null>(null);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    stopInterval();
+    touchStartX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStartX.current !== null && touchEndX.current !== null) {
+      const diff = touchStartX.current - touchEndX.current;
+      if (diff > 45) {
+        // Swiped left -> next
+        handleNext();
+      } else if (diff < -45) {
+        // Swiped right -> prev
+        handlePrev();
+      }
+    }
+    touchStartX.current = null;
+    touchEndX.current = null;
+    startInterval();
+  };
+
   useEffect(() => {
     startInterval();
     return stopInterval;
@@ -353,9 +397,9 @@ export default function Hero() {
     return (
       <h1 className="hero-h1" style={{
         fontFamily: 'var(--font)', fontWeight: 800,
-        fontSize: 'clamp(36px, 5.5vw, 68px)',
+        fontSize: 'clamp(34px, 5.5vw, 68px)',
         lineHeight: 1.08, letterSpacing: '-0.04em',
-        marginBottom: '24px', color: colors.primary,
+        marginBottom: '20px', color: colors.primary,
       }}>
         {lines.map((line, i) => {
           if (line === null && anim) {
@@ -383,6 +427,9 @@ export default function Hero() {
       id="products"
       onMouseEnter={stopInterval}
       onMouseLeave={startInterval}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
       style={{
         position: 'relative',
         width: '100%',
@@ -646,6 +693,7 @@ export default function Hero() {
         <CarouselNavigator
           total={SLIDES.length}
           active={active}
+          isDark={isDark(active)}
           onPrev={handlePrev}
           onNext={handleNext}
           onDot={handleDot}
@@ -657,11 +705,11 @@ export default function Hero() {
           #products {
             height: auto !important;
             min-height: 100svh !important;
-            padding-top: 84px !important;
-            padding-bottom: 90px !important;
+            padding-top: calc(var(--safe-top) + 80px) !important;
+            padding-bottom: 84px !important;
           }
           .hero-h1 {
-            font-size: clamp(28px, 7.5vw, 42px) !important;
+            font-size: clamp(28px, 7.8vw, 42px) !important;
             line-height: 1.12 !important;
             margin-bottom: 16px !important;
           }
@@ -669,19 +717,22 @@ export default function Hero() {
             display: none !important;
           }
           .hero-carousel-nav {
-            bottom: 24px !important;
-            right: 20px !important;
+            bottom: 20px !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            right: auto !important;
           }
         }
-        @media (max-width: 500px) {
+        @media (max-width: 560px) {
           .hero-badges-grid {
-            grid-template-columns: 1fr !important;
-            gap: 8px !important;
-            margin-bottom: 24px !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 8px 12px !important;
+            margin-bottom: 28px !important;
           }
           .hero-cta-wrap {
             flex-direction: column !important;
             gap: 10px !important;
+            width: 100% !important;
           }
           .hero-btn-primary,
           .hero-btn-secondary {
@@ -689,11 +740,9 @@ export default function Hero() {
             justify-content: center !important;
           }
         }
-        @media (max-width: 640px) {
-          #products > div[style*="z-index: 1"] {
-            background: linear-gradient(to bottom,
-              rgba(0,0,0,0.85) 0%,
-              rgba(0,0,0,0.72) 100%) !important;
+        @media (max-width: 380px) {
+          .hero-badges-grid {
+            grid-template-columns: 1fr !important;
           }
         }
       `}</style>

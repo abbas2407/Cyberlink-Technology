@@ -223,7 +223,15 @@ export default function Testimonial() {
       </div>
 
       <style>{`
-        @media (max-width: 768px) { .reviews-grid { grid-template-columns: 1fr !important; } }
+        @media (max-width: 768px) {
+          .reviews-grid {
+            grid-template-columns: 1fr !important;
+            gap: 14px !important;
+          }
+          .reviews-grid > div {
+            padding: 22px 18px !important;
+          }
+        }
       `}</style>
     </section>
   );
